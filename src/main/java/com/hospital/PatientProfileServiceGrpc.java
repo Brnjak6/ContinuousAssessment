@@ -15,8 +15,6 @@ import static io.grpc.stub.ServerCalls.asyncUnaryCall;
 import static io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall;
 import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 
-import io.grpc.stub.StreamObserver;
-
 /**
  */
 @javax.annotation.Generated(
@@ -281,12 +279,6 @@ public final class PatientProfileServiceGrpc {
       return blockingUnaryCall(
           getChannel(), getUpdatePatientMealsMethod(), getCallOptions(), request);
     }
-
-	public StreamObserver<UpdatePatientMealsRequest> updatePatientMeals(
-			StreamObserver<UpdatePatientMealsResponse> streamObserver) {
-		// TODO Auto-generated method stub
-		return null;
-	}
   }
 
   /**
