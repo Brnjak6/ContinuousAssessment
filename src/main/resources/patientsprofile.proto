@@ -1,39 +1,52 @@
 syntax = "proto3";
 
 option java_multiple_files = true;
-option java_package = "com.hospital";
+option java_package = "com.hospital.patientsprofile";
 option java_outer_classname = "ContinuousAssessment";
 
+
 service PatientProfileService {
-  rpc CreatePatientProfile(CreatePatientProfileRequest) returns (CreatePatientProfileResponse) {}
+  rpc GetPatientInfo(GetPatientInfoRequest) returns (GetPatientInfoResponse) {}
 
-  rpc GetPatientMeals(GetPatientMealsRequest) returns (GetPatientMealsResponse) {}
+  rpc GetDailyMeals(GetDailyMealsRequest) returns (stream GetDailyMealsResponse) {}
 
-  rpc UpdatePatientMeals(UpdatePatientMealsRequest) returns (UpdatePatientMealsResponse) {}
+  rpc GetLunchDetails(GetLunchDetailsRequest) returns (GetLunchDetailsResponse) {}
 }
 
-message CreatePatientProfileRequest {
-  int32 age = 1;
-  int32 weight = 2;
-  int32 height = 3;
-}
-
-message CreatePatientProfileResponse {
-  string confirmation = 1;
-}
-
-message GetPatientMealsRequest {
+message GetPatientInfoRequest {
   string patient_id = 1;
 }
-message GetPatientMealsResponse {
-  repeated string meals = 1;
+
+message GetPatientInfoResponse {
+  string patient_name = 1;
+  float height = 2;
+  float weight = 3;
 }
 
-message UpdatePatientMealsRequest {
+message GetDailyMealsRequest {
   string patient_id = 1;
-  repeated string meals = 2;
 }
 
-message UpdatePatientMealsResponse {
-  string confirmation = 1;
+message GetDailyMealsResponse {
+  message Meal {
+    string food = 1;
+    float quantity = 2;
+    string notes = 3;
+  }
+  repeated Meal breakfast = 1;
+  repeated Meal lunch = 2;
+  repeated Meal dinner = 3;
+}
+
+message GetLunchDetailsRequest {
+  string patient_id = 1;
+}
+
+message GetLunchDetailsResponse {
+  message Meal {
+    string food = 1;
+    float quantity = 2;
+    string notes = 3;
+  }
+  repeated Meal meals = 1;
 }

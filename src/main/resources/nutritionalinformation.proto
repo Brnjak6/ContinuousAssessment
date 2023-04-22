@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.hospital.nutritionalinformation";
+option java_outer_classname = "ContinuousAssessment";
+
+service NutritionalInformationService {
+  rpc nutriInformation(NutriInformationRequest) returns (NutriInformationResponse) {}
+
+  rpc mealRanking(MealRankingRequest) returns (MealRankingResponse) {}
+
+  rpc microNutrientStats(stream MicroNutrientStatsRequest) returns (stream MicroNutrientStatsResponse) {}
+}
+
+message NutriInformationRequest {
+  int32 meal_number = 1;
+}
+
+message NutriInformationResponse {
+  string meal_ingredients = 1;
+}
+
+message MealRankingRequest {
+  int32 meal_type = 1;
+}
+
+message MealRankingResponse {
+  float avg_rating = 1;
+}
+
+message MicroNutrientStatsRequest {
+  repeated int32 meal_numbers = 1;
+}
+
+message MicroNutrientStatsResponse {
+  message NutrientInfo {
+    string nutrient_name = 1;
+    float nutrient_value = 2;
+  }
+  repeated NutrientInfo nutrient_infos = 1;
+}

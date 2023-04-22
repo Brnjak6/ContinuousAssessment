@@ -1,17 +1,14 @@
 syntax = "proto3";
 
 option java_multiple_files = true;
-option java_package = "com.hospital";
+option java_package = "com.hospital.portioncalculator";
 option java_outer_classname = "ContinuousAssessment";
 
 service PortionCalculatorService {
-  // Unary method that returns a suitable diet level for a given user ID.
   rpc SuitableMeal(SuitableMealRequest) returns (SuitableMealResponse) {}
 
-  // Server streaming method that returns meals for a day for a given user ID.
   rpc DailyMeals(DailyMealsRequest) returns (stream DailyMealsResponse) {}
 
-  // Unary method that returns current portion details for a given user ID and meal.
   rpc CurrentPortion(CurrentPortionRequest) returns (CurrentPortionResponse) {}
 }
 
