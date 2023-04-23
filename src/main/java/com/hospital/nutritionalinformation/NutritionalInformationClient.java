@@ -8,6 +8,7 @@ import io.grpc.stub.StreamObserver;
 
 public class NutritionalInformationClient {
   public static void main(String[] args) {
+	  
     ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8080)
         .usePlaintext()
         .build();

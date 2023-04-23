@@ -36,6 +36,7 @@ public class PatientsProfileServer {
     private static class PatientProfileServiceImpl extends PatientProfileServiceGrpc.PatientProfileServiceImplBase {
         @Override
         public void getPatientInfo(GetPatientInfoRequest request, StreamObserver<GetPatientInfoResponse> responseObserver) {
+            // Create a response object of type GetPatientInfoResponse with the following attributes; setPatientName, setHeight, and setWeight
             GetPatientInfoResponse response = GetPatientInfoResponse.newBuilder()
                     .setPatientName("Mike Peterson")
                     .setHeight(175.3f)
@@ -45,6 +46,7 @@ public class PatientsProfileServer {
             responseObserver.onCompleted();
         }
 
+        // Overriding the method getDailyMeals with two parameters; request of type GetDailyMealsRequest and responseObserver of type StreamObserver<GetDailyMealsResponse>
         @Override
         public void getDailyMeals(GetDailyMealsRequest request, StreamObserver<GetDailyMealsResponse> responseObserver) {
             GetDailyMealsResponse response = GetDailyMealsResponse.newBuilder()

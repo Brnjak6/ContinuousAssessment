@@ -1,5 +1,10 @@
 package com.hospital.nutritionalinformation;
 
+import java.net.InetAddress;
+
+import javax.jmdns.JmDNS;
+import javax.jmdns.ServiceInfo;
+
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.Status;
@@ -8,17 +13,30 @@ import io.grpc.stub.StreamObserver;
 
 public class NutritionalInformationServer {
   public static void main(String[] args) throws Exception {
+	  final int PORT = 8080;
+	    final String SERVICE_TYPE = "_nutriinfo._tcp.local.";
+	    final String SERVICE_NAME = "NutritionalInformationService";
+	    
     Server server = ServerBuilder.forPort(8080)
         .addService(new NutritionalInformationServiceImpl())
         .build();
+    
+    // Create jmDNS instance
+    JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
+
+    // Register service
+    ServiceInfo serviceInfo = ServiceInfo.create(SERVICE_TYPE, SERVICE_NAME, PORT, "");
+    jmdns.registerService(serviceInfo);
+    System.out.printf("Service registered: %s%n", serviceInfo);
     server.start();
     System.out.println("Server started");
-    server.awaitTermination();
+    server.awaitTermination(); // blocking until the server is terminated
   }
   
   static class NutritionalInformationServiceImpl extends NutritionalInformationServiceGrpc.NutritionalInformationServiceImplBase {
     @Override
     public void nutriInformation(NutriInformationRequest request, StreamObserver<NutriInformationResponse> responseObserver) {
+        // Create response for nutriInformation() method
       NutriInformationResponse response = NutriInformationResponse.newBuilder()
           .setMealIngredients("Example meal ingredients for meal " + request.getMealNumber())
           .build();
@@ -28,6 +46,7 @@ public class NutritionalInformationServer {
     
     @Override
     public void mealRanking(MealRankingRequest request, StreamObserver<MealRankingResponse> responseObserver) {
+        // Create response for mealRanking() method
       MealRankingResponse response = MealRankingResponse.newBuilder()
           .setAvgRating(7.5f) 
           .build();
@@ -39,6 +58,7 @@ public class NutritionalInformationServer {
     public StreamObserver<MicroNutrientStatsRequest> microNutrientStats(StreamObserver<MicroNutrientStatsResponse> responseObserver) {
       return new StreamObserver<MicroNutrientStatsRequest>() {
         @Override
+        // Creating response for onNext() method of the streaming call
         public void onNext(MicroNutrientStatsRequest request) {
           MicroNutrientStatsResponse.NutrientInfo nutrientInfo1 = MicroNutrientStatsResponse.NutrientInfo.newBuilder()
               .setNutrientName("High in carbs meal")
